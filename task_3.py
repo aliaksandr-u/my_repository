@@ -7,5 +7,5 @@
 #    name = input("Введите имя: ")
 #    email = input("Введите email: ")
 #    a = {name: email}
-#    user_email [i] = a
+#    user_email[i] = a
 #print(user_email)
