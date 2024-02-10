@@ -9,3 +9,6 @@
 #    a = {name: email}
 #    user_email[i] = a
 #print(user_email)
+
+data = {i: {"name": input(f"name {i}: "), "email": input(f"email {i}: ")} for i in range(3)}
+print(data)
