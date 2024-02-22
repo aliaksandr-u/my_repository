@@ -1,282 +1,240 @@
-# # def length(a, b):
-# #     count = 0
-# #     for _ in a:
-# #         count += 1
-# #     return count
-# #
-# #
-# # # text = "Hello world"
-# # # text2 = "Python"
-# # # c = length(b=text2, a=text)
-# #
-# #
-# # def foo(a=42, b=None):
-# #     print(a)
-# #
-# #
-# # def bar(a, b=None):
-# #     if b is None:
-# #         b = []
-# #     b.append(a)
-# #     print(b)
-# #
-# #
-# # def baz(*args):
-# #     print(args)
-# #
-# #
-# # # baz(4, 6, 8, 10, 12, 14, 16, 18, 20)
-# #
-# #
-# # def foo2(**kwargs):
-# #     print(kwargs)
-# #
-# #
-# # # foo2(a=1, b=2, c=3)
-# #
-# #
-# # def bar2(a, b, *args, c=3, d=None, **kwargs):
-# #     print(a)
-# #     print(b)
-# #     print(c)
-# #     print(d)
-# #     print(args)
-# #     print(kwargs)
-# #
-# #
-# # # bar2(1, 2, 3, 4, 5, 6, 7, c=8, d=9, e=10)
-# #
-# #
-# # def baz2(e, *, a, b, c, d):
-# #     print(a)
-# #     print(b)
-# #     print(c)
-# #     print(d)
-# #     print(e)
-# #
-# #
-# # # baz2(0, a=1, b=2, c=3, d=4)
-# #
-# # # a = 5
-# # #
-# # #
-# # # def foo3():
-# # #     a = 10
-# # #
-# # #     def wrapper():
-# # #         nonlocal a
-# # #         print(a)
+# from io import TextIOWrapper
 #
 #
-# # def key(a):
-# #     if isinstance(a, (int, float)):
-# #         return a
-# #     elif isinstance(a, str):
-# #         return int(a)
+# class Category(object):
+#     categories: list[str] = []
+#
+#     @classmethod
+#     def add(cls, category: str) -> int:
+#         """Add new category
+#
+#         :param category: New Category Name
+#         :return: New Category Index in category list
+#         :raise ValueError: Category exist
+#         """
+#         if not isinstance(category, str):
+#             raise TypeError
+#
+#         category = category.title()
+#         if category not in cls.categories:
+#             cls.categories.append(category)
+#             return cls.categories.index(category)
+#         raise ValueError(f"category: {category} exist")
+#
+#     @classmethod
+#     def get(cls, pk: int) -> str:
+#         """Get category by ID
+#
+#         :param pk: Category ID
+#         :return: Category Name
+#         :raise IndexError: Category not presented in category list
+#         """
+#         try:
+#             return cls.categories[pk]
+#         except IndexError:
+#             raise IndexError("category not found")
+#
+#     @classmethod
+#     def delete(cls, pk: int) -> None:
+#         """Delete category by ID
+#
+#         :param pk: Category ID
+#         """
+#         try:
+#             del cls.categories[pk]
+#         except IndexError:
+#             ...
+#
+#     @classmethod
+#     def update(cls, pk: int, category: str) -> None:
+#         """Update category by ID
+#
+#         :param pk: Category ID
+#         :param category: New Category Name
+#         :raise ValueError: If category exist
+#         """
+#         category = category.title()
+#         try:
+#             cls.get(pk=pk)
+#         except IndexError:
+#             cls.add(category=category)
+#         else:
+#             if category not in cls.categories:
+#                 cls.categories[pk] = category
+#             else:
+#                 raise ValueError("category not unique")
 #
 #
-# # objs = [3, 5, "4", 6, "-23", -45, ]
-# # # key = lambda a: a if isinstance(a, (int, float)) else int(a)  # bad practice
-# # # print(key("99"))
-# # objs.sort(key=lambda x: x if isinstance(x, (int, float)) else int(x))
-# # print(objs)
+# # LESSON 9 - FILES
 #
 #
-# def foo(a: list, *args: str | int, **kwargs: int) -> tuple[bool, bool]:
-#     print(a)
-#     print(args)
-#     print(kwargs)
-#     return True, False
-#
-#
-# # numbers: list[int] = [1, 2, 3, 4]
+# # file = open(file="./output.txt", mode="w", encoding="utf-8")
+# # from time import sleep
 # #
-# # data: dict[str, dict[str, str]] = {
-# #     "name": {"": ""}
+# # while ...:
+# #     file.write("Hello\n")
+# #     file.flush()
+# #     sleep(1)
+# # file.write("Hello World\n")
+# # file.writelines("Hello World\n")
+# # print(file.writable())
+# # print(file.read())
+# # file.seek(0)
+# # print(file.read())
+# # print(file.readline())
+# # print(file.readlines())
+# # print(file.readable())
+# # print(file.closed)
+# # lines = [line.strip() for line in file if line.strip()]
+# # print(lines)
+# # file.close()
+# # print(file.closed)
+#
+#
+# # with (
+# #     open(file="./input.txt", mode="rt", encoding="utf-8") as file,
+# #     open(file="./output.txt", mode="wt", encoding="utf-8")
+# # ):
+# #     print(file.closed)
+# # print(file.closed)
+#
+#
+# class DatabaseSession(object):
+#
+#     def __init__(self):
+#         self.is_close = False
+#
+#     def close(self):
+#         self.is_close = True
+#
+#     def __enter__(self):
+#         return self
+#
+#     def __exit__(self, exc_type, exc_val, exc_tb):
+#         if exc_type is ValueError:
+#             return True
+#         self.close()
+#
+#
+# # with DatabaseSession() as session:  # type: DatabaseSession
+# #     print(session.is_close)
+# #     raise ValueError("1")
+# # print(session.is_close)
+# # try:
+# # from orjson import loads, dumps
+# # except ImportError:
+# #     from json import load, loads, dumps, dump
+#
+# # with open(file="./input.json", mode="rt", encoding="utf-8") as file:
+# #     data = load(file)
+# #     print(data.get("referrer"))
+# #
+# # data = {
+# #     "id": 1,
+# #     "name": "Кофе",
+# #     "price": 5.5
 # # }
+# # with open(file="./output.json", mode="wt", encoding="utf-8") as file:
+# #     text = dumps(data)
+# #     file.write(text.decode())
+# # from yaml import safe_load
+# #
+# # with open("./config.yaml", "rt", encoding="utf-8") as file:
+# #     data = safe_load(file)
+# #     print(data)
 #
+# # from configparser import ConfigParser
+# #
+# #
+# # parser = ConfigParser()
+# # parser.read("./config.ini")
+# # print(parser.get(section="SECTION1", option="key1"))
+# # print(parser.sections())
 #
-# def bar(objs: list):
-#     for obj in objs:  # type: int
-#         print(obj)
+# from csv import reader, writer, DictReader, DictWriter
 #
+# with open("./output.csv", "wt", encoding="utf-8") as file:
+#     # r = reader(file)
+#     # for line in r:
+#     #     print(line)
+#     # r = DictReader(file)
+#     # for line in r:
+#     #     print(line)
+#     data = [
+#         {
+#             "id": 1,
+#             "name": "Coffee"
+#         },
+#         {
+#             "id": 2,
+#             "name": "Pancake"
+#         }
+#     ]
+#     w = DictWriter(file, fieldnames=["id", "name"])
+#     w.writeheader()
+#     w.writerows(data)
+from datetime import datetime
+# from ujson import load
 #
-# # print(bar.__annotations__)
-# # print(bar.__name__)
-# # print(bar.__code__)
-# # print(bar.__builtins__)
-# # print(bar.__dict__)
-#
-# def func(a, b):
-#     return int(a) * int(b)
-#
-#
-# # numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-# # numbers2 = ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20"]
-# # m = map(func, numbers, numbers[:-2])
-# # for i in m:
-# #     print(i)
-# # print(next(m))
-# # print("sleep")
-# # print(next(m))
-# # print("sleep")
-# # numbers = [int(i) for i in numbers]
-# # print(numbers)
-# # for i, el in enumerate(numbers):
-# #     numbers[i] = int(el)
-# # print(numbers)
-#
-# # objs = [2, 4, -5, 6, -23, 5, 3, -5, 7, 54, 7]
-# # f = filter(lambda x: x > 0, objs)
-# # for i in f:
-# #     print(i)
-#
-#
-# # text = "Hello world"
-# # objs = [True, False, None]
-# # s = (4, 7, 2, 5)
-# # z = zip(text, objs, s, strict=True)
-# # for i in z:
-# #     print(i)
-#
-# # from itertools import zip_longest
-#
-#
-# # a = zip_longest(text, objs, s, fillvalue="Н/У")
-# # for i in a:
-# #     print(i)
+# with open("./user_register.json", "rt", encoding="utf-8") as file:
+#     data = load(file)
+
+from typing import *
+from annotated_types import Annotated, Predicate
+from pydantic import BaseModel, EmailStr, Field, PlainValidator, validate_call
+from pydantic.types import Decimal, PositiveInt
+
+AlphaStr = Annotated[str, Predicate(func=str.isalpha)]
 
 
-# def my_range(start, stop, step):
-#     for i in range(start, stop, step):
-#         yield i
-#
-#
-# a = my_range(1, 10, 2)
-# text = "Hello"
-# b = (i for i in text)
-# print(next(b))
-# print(next(b))
-# print(next(b))
-# print(next(b))
-# print(next(a))
-# print("sleep")
-# print(next(a))
-# print("sleep")
-# print(next(a))
-# print("sleep")
-
-# vasyapupkin@gmail.com
+class UserRegisterForm(BaseModel):
+    first_name: AlphaStr = Field(min_length=2, max_length=32)
+    last_name: Optional[AlphaStr] = Field(default=None)
+    email: EmailStr
+    age: int = Field(ge=18, lt=100)
+    date_register: datetime
+    # lang: list[Union[int, float]]
+    # role: Literal[
+    #     "user",
+    #     "admin",
+    #     "superuser"
+    # ]
 
 
-def ping():
-    for _ in range(10):
-        yield "PING"
+# data = UserRegisterForm.parse_file(path="./user_register.json")
+# print(data.model_dump(mode="json", exclude={"date_register"}))
+# from datetime import datetime
+# print(datetime.now().isoformat())
+
+class Product(BaseModel):
+    id: PositiveInt
+    price: Decimal = Field(max_digits=5, decimal_places=2)
 
 
-def pong():
-    for _ in range(10):
-        print("PONG")
-        yield from ping()
+class Category(BaseModel):
+    id: PositiveInt = Field(default=...)
+    name: AlphaStr = Field(default=...)
+    products: Optional[list[Product]] = Field(default=None)
+    parent: Optional["Category"] = Field(default=None)
 
 
-# p = pong()
-# for i in p:
-#     print(i)
+data = {
+    "id": 1,
+    "name": "Coffee",
+    "products": [
+        {
+            "id": 1,
+            "price": 12341234.234
+        }
+    ],
+    "parent": {
+        "id": -5,
+        "name": "Pancake"
+    }
+}
+# cat = Category.model_validate(data)
 
 
-def infinity_ping():
-    while ...:
-        yield "PONG"
-
-
-# for i in infinity_ping():
-#     print(i)
-
-# from sys import setrecursionlimit, getrecursionlimit
-#
-# print(getrecursionlimit())
-# setrecursionlimit(2000)
-# print(getrecursionlimit())
-
-numbers = [1, 2, 3, [1, 2, 3, [1, 2, 3], [1, 2, 3], 4, 5, 6], 4, 5, 6]
-
-
-def recursive_multiply(objs: list[int | list]) -> int:
-    c = 1
-    for obj in objs:
-        if isinstance(obj, int | float):
-            c *= obj
-        elif isinstance(obj, list | tuple):
-            c *= recursive_multiply(obj)
-    return c
-
-
-# print(recursive_multiply(numbers))
-
-
-# def foo(a):
-#     while a:
-#         if a == 1:
-#             foo(0)
-
-
-# foo(1)
-
-
-# def decorator(a):
-#     def wrapper(b):
-#         return a * b
-#
-#     return wrapper
-
-
-def decorator(func):
-    def wrapper(*args, **kwargs):
-        print("pre process")
-        result = func(*args, **kwargs)
-        print("post process")
-        return result
-
-    return wrapper
-
-
-@decorator
-def foo(a, b):
-    return a * b
-
-
-# print(foo(4, 5))
-# decorated_foo = decorator(foo)
-
-
-def logging(filename):
-    def _logging(func):
-        def wrapper(*args, **kwargs):
-            result = func(*args, **kwargs)
-            with open(filename, "a", encoding="utf-8") as file:
-                file.write(f"{func.__name__}: {args=} {kwargs=}: {result}\n")
-            return result
-
-        return wrapper
-    return _logging
-
-
-@logging(filename="multiply.log")
-def multiply(*args):
-    c = 1
-    for arg in args:
-        c *= arg
-    return c
-
-
-@logging(filename="summ.log")
-def summ(*args):
-    s = 0
-    for arg in args:
-        s += arg
-    return s
-
-
-print(multiply(2, 4, 6))
-print(summ(1, 3, 5))
+@validate_call()
+def is_palindrome(text: str) -> bool:
+    return text.lower() == text.lower()[::-1]
