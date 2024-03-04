@@ -4,7 +4,7 @@ from psycopg2._psycopg import cursor
 #from datetime import datetime
 
 #postgres://username:password@host:port/db_name
-with connect(dsn="postgres://user13:UUsBwRoy2@217.76.60.77:6666/admin") as conn:
+with connect(dsn="postgres://user13:UUsBwRoy2@217.76.60.77:6666/user13") as conn:
     with conn.cursor() as cur:
         cur.execute("""
             CREATE TABLE IF NOT EXISTS tags(
